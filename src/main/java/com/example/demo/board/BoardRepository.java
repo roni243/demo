@@ -2,6 +2,8 @@ package com.example.demo.board;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.Transient;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +15,7 @@ public class BoardRepository {
 
     private final EntityManager em;
 
+    @Transactional
     public void save(Board board) {
         em.persist(board);
     }
@@ -26,13 +29,23 @@ public class BoardRepository {
 
     }
 
-    public List<Board> findAll() {
-        return em.createQuery("SELECT b FROM Board b", Board.class).getResultList();
+    public List<BoardResponse.ListDTO> findAll() {
+        List<Board> boards = em.createQuery("SELECT b FROM Board b", Board.class).getResultList();
+
+        List<BoardResponse.ListDTO> ListDTOs = boards.stream()
+                .map(l -> new BoardResponse.ListDTO(l.getId(), l.getTitle()))
+                .toList();
+
+        return ListDTOs;
     }
 
-    public Board findById(int id) {
+    public BoardResponse.DetailDTO findById(int id) {
         Board board = em.createQuery("SELECT b FROM Board b WHERE b.id = :id", Board.class).setParameter("id", id).getSingleResult();
-        return board;
+        return new BoardResponse.DetailDTO(
+                board.getId(),
+                board.getTitle(),
+                board.getContent()
+        );
     }
 
     public void deleteById(int id) {

@@ -5,12 +5,12 @@
     <div class="card">
         <div class="card-header"><b>글수정하기 화면입니다</b></div>
         <div class="card-body">
-            <form action="/board/update/{{id}}" method="post">
+            <form action="/board/update/{{model.id}}" method="post">
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter title" name="title" value="{{title}}">
+                    <input type="text" class="form-control" placeholder="Enter title" name="title" value="{{model.title}}">
                 </div>
                 <div class="mb-3">
-                    <textarea class="form-control" rows="5" name="content">{{content}}</textarea>
+                    <textarea class="form-control" rows="5" name="content">{{model.content}}</textarea>
                 </div>
                 <button type="submit" class="btn btn-primary form-control">글수정하기완료</button>
             </form>
