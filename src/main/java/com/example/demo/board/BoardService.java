@@ -26,4 +26,25 @@ public class BoardService {
         BoardResponse.DetailDTO board = boardRepository.findById(id);
         return board;
     }
+
+    @Transactional
+    public void update(int id, String title, String content) {
+        boardRepository.update(id, title, content);
+    }
+
+    public void delete(int id, User sessionUser) {
+        BoardResponse.DetailDTO board;
+
+        try {
+            board = boardRepository.findById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!sessionUser.getId().equals(board.getId())) {
+            throw new IllegalArgumentException("본인의 게시글만 삭제할 수 있습니다");
+        }
+
+        boardRepository.deleteById(id);
+    }
 }

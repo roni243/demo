@@ -58,7 +58,19 @@ public class BoardController {
         model.addAttribute("model", board);
 
         return "board/update-form";
+    }
 
+    @PostMapping("/board/update/{id}")
+    public String boardUpdate(@PathVariable("id") int id, String title, String content) {
+        boardService.update(id, title, content);
+        return "redirect:/board";
+    }
+
+    @PostMapping("/board/{id}/delete")
+    public String boardDelete(@PathVariable("id") int id) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        boardService.delete(id, sessionUser);
+        return "redirect:/board";
     }
 
 }
