@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 
 @Data
-@Table(name = "board")
+@Table(name = "board_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Board {

@@ -19,7 +19,8 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String join() {
+    public String join(UserRequest.JoinDTO joinDTO) {
+        userService.join(joinDTO);
         return "redirect:/board";
     }
 
@@ -31,6 +32,9 @@ public class UserController {
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO loginDTO) {
         User sessionUser = userService.login(loginDTO);
+
+        session.setAttribute("sessionUser", sessionUser);
+
         return "redirect:/board";
     }
 
