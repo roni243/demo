@@ -29,7 +29,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login() {
+    public String login(UserRequest.LoginDTO loginDTO) {
+        User sessionUser = userService.login(loginDTO);
         return "redirect:/board";
     }
 

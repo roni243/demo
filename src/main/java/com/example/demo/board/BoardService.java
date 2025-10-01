@@ -8,4 +8,7 @@ import org.springframework.stereotype.Service;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+
+    public void save(BoardRequest.SaveDTO saveDTO) {
+    }
 }

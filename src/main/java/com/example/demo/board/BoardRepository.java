@@ -18,10 +18,12 @@ public class BoardRepository {
     }
 
     public void update(int id, String title, String content) {
-        Query query = em.createQuery("UPDATE Board b SET b.title = :title, b.content = :content, WHERE b.id = :id");
-        query.setParameter(1, title);
-        query.setParameter(2, content);
-        query.setParameter(3, id);
+        Query query = em.createQuery("UPDATE Board b SET b.title = :title, b.content = :content WHERE b.id = :id");
+        query.setParameter("title", title);
+        query.setParameter("content", content);
+        query.setParameter("id", id);
+        query.executeUpdate();
+
     }
 
     public List<Board> findAll() {
@@ -29,13 +31,13 @@ public class BoardRepository {
     }
 
     public Board findById(int id) {
-        Board board = em.createQuery("SELECT * FROM Board b WHERE b.id = :id", Board.class).setParameter(1, id).getSingleResult();
+        Board board = em.createQuery("SELECT b FROM Board b WHERE b.id = :id", Board.class).setParameter("id", id).getSingleResult();
         return board;
     }
 
     public void deleteById(int id) {
-        Query query = em.createQuery("DELETE FROM Board b WHERE id = :id");
-        query.setParameter(1, id);
+        Query query = em.createQuery("DELETE FROM Board b WHERE b.id = :id");
+        query.setParameter("id", id);
         query.executeUpdate();
     }
 

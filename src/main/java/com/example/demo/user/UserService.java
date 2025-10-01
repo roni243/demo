@@ -12,7 +12,13 @@ public class UserService {
         userRepository.save(joinDTO.toEntity());
     }
 
-    public void login(UserRequest.LoginDTO loginDTO) {
-        userRepository.findByUsername(loginDTO.getUsername());
+    public User login(UserRequest.LoginDTO loginDTO) {
+        User user = userRepository.findByUsername(loginDTO.getUsername());
+
+        if (user == null) throw new RuntimeException("유저네임 혹은 비밀번호가 틀렸습니다");
+
+        if (!user.getPassword().equals(loginDTO.getPassword())) throw new RuntimeException();
+
+        return user;
     }
 }
