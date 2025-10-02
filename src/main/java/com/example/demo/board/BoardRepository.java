@@ -29,23 +29,14 @@ public class BoardRepository {
 
     }
 
-    public List<BoardResponse.ListDTO> findAll() {
+    public List<Board> findAll() {
         List<Board> boards = em.createQuery("SELECT b FROM Board b", Board.class).getResultList();
-
-        List<BoardResponse.ListDTO> ListDTOs = boards.stream()
-                .map(l -> new BoardResponse.ListDTO(l.getId(), l.getTitle()))
-                .toList();
-
-        return ListDTOs;
+        return boards;
     }
 
-    public BoardResponse.DetailDTO findById(int id) {
+    public Board findById(int id) {
         Board board = em.createQuery("SELECT b FROM Board b WHERE b.id = :id", Board.class).setParameter("id", id).getSingleResult();
-        return new BoardResponse.DetailDTO(
-                board.getId(),
-                board.getTitle(),
-                board.getContent()
-        );
+        return board;
     }
 
     @Transactional

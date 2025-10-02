@@ -17,13 +17,13 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    public List<BoardResponse.ListDTO> findAll() {
-        List<BoardResponse.ListDTO> boards = boardRepository.findAll();
+    public List<Board> findAll() {
+        List<Board> boards = boardRepository.findAll();
         return boards;
     }
 
-    public BoardResponse.DetailDTO findById(int id) {
-        BoardResponse.DetailDTO board = boardRepository.findById(id);
+    public Board findById(int id) {
+        Board board = boardRepository.findById(id);
         return board;
     }
 
@@ -33,7 +33,7 @@ public class BoardService {
     }
 
     public void delete(int id, User sessionUser) {
-        BoardResponse.DetailDTO board;
+        Board board;
 
         try {
             board = boardRepository.findById(id);
@@ -41,7 +41,7 @@ public class BoardService {
             throw new RuntimeException(e);
         }
 
-        if (!sessionUser.getId().equals(board.getId())) {
+        if (!sessionUser.getId().equals(board.getUser().getId())) {
             throw new IllegalArgumentException("본인의 게시글만 삭제할 수 있습니다");
         }
 

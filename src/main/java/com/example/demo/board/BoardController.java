@@ -18,16 +18,10 @@ public class BoardController {
     private final BoardService boardService;
     private final HttpSession session;
 
-
-//    @GetMapping("/")
-//    public String home() {
-//        return "board/list";
-//    }
-
     @GetMapping("/board")
     public String boardList(Model model) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        List<BoardResponse.ListDTO> boards = boardService.findAll();
+        List<Board> boards = boardService.findAll();
         model.addAttribute("models", boards);
         model.addAttribute("sessionUser", sessionUser);
         return "board/list";
@@ -47,14 +41,14 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String boardDetail(@PathVariable("id") int id, Model model) {
-        BoardResponse.DetailDTO board = boardService.findById(id);
+        Board board = boardService.findById(id);
         model.addAttribute("model", board);
         return "board/detail";
     }
 
     @GetMapping("/board/{id}/update-form")
     public String boardUpdateForm(@PathVariable("id") int id, Model model) {
-        BoardResponse.DetailDTO board= boardService.findById(id);
+        Board board= boardService.findById(id);
         model.addAttribute("model", board);
 
         return "board/update-form";
